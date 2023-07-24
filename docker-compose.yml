@@ -1,0 +1,27 @@
+version: '3'
+services:
+        minimum-nginx:
+                container_name: "minimum-nginx"
+                build: 
+                  context: ./docker/nginx
+                image: nginx:1.15
+                ports:
+                  - "0.0.0.0:8082:80"
+        minimum-php-fpm:
+                container_name: "minimum-php"
+                build: ./docker/php
+                volumes:
+                        - ./src:/var/www/html
+        minimum-mysql:
+                container_name: "minimum-mysql"
+                image: mysql:5.7
+                environment:
+                        MYSQL_DATABASE: minimum 
+                        MYSQL_ROOT_PASSWORD: password
+                        MYSQL_USER: user
+                        MYSQL_PASSWORD: password
+                        TZ: Asia/Tokyo
+                ports:
+                        - 3306:3306
+                volumes:
+                        - ./mysql/data:/var/lib/mysql
